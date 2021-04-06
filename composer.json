@@ -1,0 +1,30 @@
+{
+  "name": "duiying/hyperf-plus",
+  "description": "PHP 协程框架",
+  "type": "library",
+  "license": "Apache-2.0",
+  "keywords": [
+    "php",
+    "swoole",
+    "coroutine"
+  ],
+  "authors": [
+    {
+      "name": "duiying",
+      "email": "wangyaxiandev@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.1",
+    "ext-swoole": ">=4.4",
+    "nikic/fast-route": "^1.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "Carrot\\": "src/"
+    },
+    "files": [
+      "src/functions.php"
+    ]
+  }
+}
