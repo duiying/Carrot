@@ -3,6 +3,7 @@
 namespace Carrot\Server;
 
 use Carrot\Application;
+use Carrot\Route;
 
 class HttpServer
 {
