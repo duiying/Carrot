@@ -97,7 +97,7 @@ class Route
         $uri = explode('/', $uri);
 
         if ($uri[0] === '') {
-            $className = '\\App\\Controller\\IndexAction';
+            $className = '\\App\\Module\\Index\\IndexAction';
             if (class_exists($className) && method_exists($className, 'index')) {
                 return (new $className())->index($request, $response);
             }
