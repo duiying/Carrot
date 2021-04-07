@@ -19,7 +19,7 @@ class HttpServer
         $httpConfig = $config['http'];
         $this->_config = $httpConfig;
 
-        $this->_server = new Swoole\Http\Server($httpConfig['ip'], $httpConfig['port'], $config['mode'], $httpConfig['sock_type']);
+        $this->_server = new \Swoole\Http\Server($httpConfig['ip'], $httpConfig['port'], $config['mode'], $httpConfig['sock_type']);
 
         $this->_server->on('workerStart', [$this, 'onWorkerStart']);
         $this->_server->on('request', [$this, 'onRequest']);
