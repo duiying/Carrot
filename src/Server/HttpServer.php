@@ -34,17 +34,17 @@ class HttpServer
         $this->_server->start();
     }
 
-    public function onStart(HttpServer $server)
+    public function onStart(\Swoole\Server $server)
     {
         Application::printSuccess("Swoole Http Server running：http://{$this->_config['ip']}:{$this->_config['port']}");
     }
 
-    public function onManagerStart(HttpServer $server)
+    public function onManagerStart(\Swoole\Server $server)
     {
         Application::printSuccess("Swoole Http Server running：http://{$this->_config['ip']}:{$this->_config['port']}");
     }
 
-    public function onWorkerStart(HttpServer $server, int $workerId)
+    public function onWorkerStart(\Swoole\Server $server, int $workerId)
     {
         $this->_route = Route::getInstance();
     }
