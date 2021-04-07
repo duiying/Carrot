@@ -62,7 +62,7 @@ class Application
         }
 
         if ($command[0] == 'http') {
-            $pid = file_get_contents(HttpServer::$pidFile);
+            $pid = (int)file_get_contents(HttpServer::$pidFile);
         } else {
             $pid = null;
         }

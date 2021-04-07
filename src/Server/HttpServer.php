@@ -13,7 +13,7 @@ class HttpServer
 
     private $_route;
 
-    public static $pidFile = BASE_PATH . 'master.pid';
+    public static $pidFile = BASE_PATH . '/master.pid';
 
     public function __construct()
     {
