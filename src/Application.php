@@ -43,6 +43,10 @@ class Application
         $funcName = $argv[$argvCount - 1];
         $command = explode(':', $funcName);
 
+        if (count($command) != 2) {
+            self::usage();
+        }
+
         // 服务
         switch ($command[0]) {
             case 'http':
@@ -93,7 +97,20 @@ class Application
                 }
                 break;
             default:
-                self::printError("use {$argv[0]} [http:start, http:stop, http:reload, ws:start]");
+                self::usage();
         }
+    }
+
+    private static function usage()
+    {
+        echo PHP_EOL;
+
+        echo 'USAGE: php bin/carrot.php command' . PHP_EOL;
+        echo '1. http:start' . PHP_EOL;
+        echo '2. http:stop' . PHP_EOL;
+        echo '3. http:reload' . PHP_EOL;
+        echo '4. ws:start' . PHP_EOL;
+
+        exit;
     }
 }
