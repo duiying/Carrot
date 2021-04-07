@@ -6,6 +6,7 @@ namespace Carrot;
 
 use Carrot\Server\HttpServer;
 use Carrot\Server\WebsocketServer;
+use Swoole\Process;
 
 class Application
 {
@@ -60,13 +61,39 @@ class Application
                 }
         }
 
+        if ($command[0] == 'http') {
+            $pid = file_get_contents(HttpServer::$pidFile);
+        } else {
+            $pid = null;
+        }
+
         // 动作
         switch ($command[1]) {
             case 'start':
                 new $className();
                 break;
+            case 'stop':
+                if ($command[0] == 'http') {
+                    if ($pid){
+                        Process::kill($pid, SIGTERM);
+                        self::printSuccess('Swoole Http Server Stoped');
+                    } else {
+                        self::printError('PidFile Not Found');
+                    }
+                }
+                break;
+            case 'reload':
+                if ($command[0] == 'http') {
+                    if ($pid){
+                        Process::kill($pid, SIGUSR1);
+                        self::printSuccess('Swoole Http Server Reloaded');
+                    } else {
+                        self::printError('PidFile Not Found');
+                    }
+                }
+                break;
             default:
-                self::printError("use {$argv[0]} [http:start, ws:start]");
+                self::printError("use {$argv[0]} [http:start, http:stop, http:reload, ws:start]");
         }
     }
 }

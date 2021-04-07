@@ -13,6 +13,8 @@ class HttpServer
 
     private $_route;
 
+    public static $pidFile = BASE_PATH . 'master.pid';
+
     public function __construct()
     {
         $config = config('servers');
@@ -36,6 +38,9 @@ class HttpServer
 
     public function onStart(\Swoole\Server $server)
     {
+        // 记录进程 id，通过脚本实现自动重启
+        $pid = $server->master_pid;
+        file_put_contents(self::$pidFile, $pid);
         Application::printSuccess("Swoole Http Server running：http://{$this->_config['ip']}:{$this->_config['port']}");
     }
 
