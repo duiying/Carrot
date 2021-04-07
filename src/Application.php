@@ -61,7 +61,7 @@ class Application
                 }
         }
 
-        if ($command[0] == 'http') {
+        if ($command[0] == 'http' && $command[1] != 'start') {
             $pid = (int)file_get_contents(HttpServer::$pidFile);
         } else {
             $pid = null;
