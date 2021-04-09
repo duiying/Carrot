@@ -88,7 +88,7 @@ class HttpServer
             return false;
         }
         $class = explode('@', $classAndFunctionInfo)[0];
-        $function = explode('@', $classAndFunctionInfo)[2];
+        $function = explode('@', $classAndFunctionInfo)[1];
         $class::getInstance()->$function($taskData);
 
         return true;
