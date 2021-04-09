@@ -31,6 +31,12 @@ class HttpServer
             $this->_server->on('start', [$this, 'onStart']);
         }
 
+        // TASK 异步任务相关配置 begin
+        $this->_server->on('task', [$this, 'onTask']);
+        $this->_server->on('finish', [$this, 'onFinish']);
+        $httpConfig['settings']['task_enable_coroutine'] = true;
+        // TASK 异步任务相关配置 end
+
         $this->_server->set($httpConfig['settings']);
 
         $this->_server->start();
@@ -59,6 +65,33 @@ class HttpServer
         } else {
             swoole_set_process_name("swoole-worker");
         }
+    }
+
+    /**
+     * 调用 $serv->task() 后，程序立即返回，继续向下执行代码。onTask 回调函数 Task 进程池内被异步执行。执行完成后调用 $serv->finish() 返回结果。
+     *
+     * $task->worker_id 投递任务的 worker 进程 id
+     * $task->id 任务编号
+     * $task->data 任务数据
+     *
+     * @param \Swoole\Server $server
+     * @param \Swoole\Server\Task $task
+     */
+    public function onTask(\Swoole\Server $server, \Swoole\Server\Task $task)
+    {
+        return '';
+    }
+
+    /**
+     * 此回调函数在 Worker 进程被调用，当 Worker 进程投递的任务在 Task 进程中完成时，Task 进程会通过 Swoole\Server->finish() 方法将任务处理的结果发送给 Worker 进程。
+     *
+     * @param Swoole\Server $server
+     * @param int $task_id
+     * @param mixed $data
+     */
+    public function onFinish(\Swoole\Server $server, int $task_id, mixed $data)
+    {
+
     }
 
     public function onRequest(\Swoole\Http\Request $request, \Swoole\Http\Response $response)
