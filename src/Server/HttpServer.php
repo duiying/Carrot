@@ -7,7 +7,7 @@ use Carrot\Route;
 
 class HttpServer
 {
-    private $_server;
+    public static $_server;
 
     private $_config;
 
@@ -21,25 +21,25 @@ class HttpServer
         $httpConfig = $config['http'];
         $this->_config = $httpConfig;
 
-        $this->_server = new \Swoole\Http\Server($httpConfig['ip'], $httpConfig['port'], $config['mode'], $httpConfig['sock_type']);
+        self::$_server = new \Swoole\Http\Server($httpConfig['ip'], $httpConfig['port'], $config['mode'], $httpConfig['sock_type']);
 
-        $this->_server->on('workerStart', [$this, 'onWorkerStart']);
-        $this->_server->on('request', [$this, 'onRequest']);
+        self::$_server->on('workerStart', [$this, 'onWorkerStart']);
+        self::$_server->on('request', [$this, 'onRequest']);
         if ($config['mode'] == SWOOLE_BASE) {
-            $this->_server->on('managerStart', [$this, 'onManagerStart']);
+            self::$_server->on('managerStart', [$this, 'onManagerStart']);
         } else {
-            $this->_server->on('start', [$this, 'onStart']);
+            self::$_server->on('start', [$this, 'onStart']);
         }
 
         // TASK 异步任务相关配置 begin
-        $this->_server->on('task', [$this, 'onTask']);
-        $this->_server->on('finish', [$this, 'onFinish']);
+        self::$_server->on('task', [$this, 'onTask']);
+        self::$_server->on('finish', [$this, 'onFinish']);
         $httpConfig['settings']['task_enable_coroutine'] = true;
         // TASK 异步任务相关配置 end
 
-        $this->_server->set($httpConfig['settings']);
+        self::$_server->set($httpConfig['settings']);
 
-        $this->_server->start();
+        self::$_server->start();
     }
 
     public function onStart(\Swoole\Server $server)
