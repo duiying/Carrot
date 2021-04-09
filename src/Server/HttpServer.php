@@ -38,6 +38,7 @@ class HttpServer
 
     public function onStart(\Swoole\Server $server)
     {
+        swoole_set_process_name("swoole-master");
         // 记录进程 id，通过脚本实现自动重启
         $pid = $server->master_pid;
         file_put_contents(self::$pidFile, $pid);
@@ -46,12 +47,18 @@ class HttpServer
 
     public function onManagerStart(\Swoole\Server $server)
     {
+        swoole_set_process_name("swoole-manager");
         Application::printSuccess("Swoole Http Server running：http://{$this->_config['ip']}:{$this->_config['port']}");
     }
 
     public function onWorkerStart(\Swoole\Server $server, int $workerId)
     {
         $this->_route = Route::getInstance();
+        if ($workerId >= $this->_config['settings']['worker_num']) {
+            swoole_set_process_name("swoole-task");
+        } else {
+            swoole_set_process_name("swoole-worker");
+        }
     }
 
     public function onRequest(\Swoole\Http\Request $request, \Swoole\Http\Response $response)
