@@ -78,7 +78,8 @@ class Application
                 break;
             case 'stop':
                 if ($command[0] == 'http') {
-                    if ($pid){
+                    // signal_no = 0，可以检测进程是否存在，不会发送信号
+                    if ($pid && Process::kill($pid, 0)){
                         Process::kill($pid, SIGTERM);
                         self::printSuccess('Swoole Http Server Stoped');
                     } else {
@@ -88,7 +89,8 @@ class Application
                 break;
             case 'reload':
                 if ($command[0] == 'http') {
-                    if ($pid){
+                    // signal_no = 0，可以检测进程是否存在，不会发送信号
+                    if ($pid && Process::kill($pid, 0)){
                         Process::kill($pid, SIGUSR1);
                         self::printSuccess('Swoole Http Server Reloaded');
                     } else {

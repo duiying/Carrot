@@ -55,13 +55,13 @@ class Route
                     $className = $handler[0];
                     $func = $handler[1];
 
-                    if (! class_exists($className)) {
+                    if (!class_exists($className)) {
                         throw new RuntimeException("Route {$uri} defined '{$className}' Class Not Found");
                     }
 
                     $controller = new $className();
 
-                    if (! method_exists($controller, $func)) {
+                    if (!method_exists($controller, $func)) {
                         throw new RuntimeException("Route {$uri} defined '{$func}' Method Not Found");
                     }
 
