@@ -2,6 +2,7 @@
 
 namespace Carrot\Server;
 
+use App\Constant\TaskConstant;
 use Carrot\Application;
 use Carrot\Route;
 
@@ -79,13 +80,24 @@ class HttpServer
      */
     public function onTask(\Swoole\Server $server, \Swoole\Server\Task $task)
     {
-        return '';
+        $data = $task->data;
+        $taskName = $data['task_name'];
+        $taskData = $data['task_data'];
+        $classAndFunctionInfo = TaskConstant::TASK_MAP[$taskName] ?? '';
+        if (empty($classAndFunctionInfo)) {
+            return false;
+        }
+        $class = explode('@', $classAndFunctionInfo)[0];
+        $function = explode('@', $classAndFunctionInfo)[2];
+        $class::getInstance()->$function($taskData);
+
+        return true;
     }
 
     /**
      * 此回调函数在 Worker 进程被调用，当 Worker 进程投递的任务在 Task 进程中完成时，Task 进程会通过 Swoole\Server->finish() 方法将任务处理的结果发送给 Worker 进程。
      *
-     * @param Swoole\Server $server
+     * @param \Swoole\Server $server
      * @param int $task_id
      * @param mixed $data
      */
@@ -97,5 +109,19 @@ class HttpServer
     public function onRequest(\Swoole\Http\Request $request, \Swoole\Http\Response $response)
     {
         $this->_route->dispatch($request, $response);
+    }
+
+    /**
+     * 投递任务
+     *
+     * @param $taskName
+     * @param array $taskData
+     */
+    public static function deliveryTask($taskName, $taskData = [])
+    {
+        self::$_server->task([
+            'task_name' => $taskName,
+            'task_data' => $taskData
+        ]);
     }
 }
