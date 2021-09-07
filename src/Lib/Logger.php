@@ -5,7 +5,7 @@ namespace Carrot\Lib;
 class Logger
 {
     // 日志目录
-    private $baseDir    = '/data/logs/';
+    private $baseDir    = '/home/work/logs/';
     private $dir        = 'common';
 
     /**
