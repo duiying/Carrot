@@ -5,7 +5,8 @@ namespace Carrot\Lib;
 class Logger
 {
     // 日志目录
-    private $dir        = '/data/logs/common';
+    private $baseDir    = '/data/logs/';
+    private $dir        = 'common';
 
     /**
      * 获取 Logger 实例
@@ -31,6 +32,7 @@ class Logger
         if (empty($dir)) {
             $dir = $this->dir;
         }
+        $dir = $this->baseDir . $dir . '/';
         if (!is_dir($dir)) {
             @mkdir($dir, 0777, true);
         }
@@ -52,7 +54,7 @@ class Logger
             'message'   => $msg,
             'data'      => $data
         ];
-        return json_encode($content) . PHP_EOL;
+        return json_encode($content, JSON_UNESCAPED_UNICODE) . PHP_EOL;
     }
 
     public function info($msg, $data)
