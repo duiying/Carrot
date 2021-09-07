@@ -87,17 +87,6 @@ class Application
                     }
                 }
                 break;
-            case 'reload':
-                if ($command[0] == 'http') {
-                    // signal_no = 0，可以检测进程是否存在，不会发送信号
-                    if ($pid && Process::kill($pid, 0)){
-                        Process::kill($pid, SIGUSR1);
-                        self::printSuccess('Swoole Http Server Reloaded');
-                    } else {
-                        self::printError('PidFile Not Found');
-                    }
-                }
-                break;
             default:
                 self::usage();
         }
@@ -110,8 +99,7 @@ class Application
         echo 'USAGE: php bin/carrot.php command' . PHP_EOL;
         echo '1. http:start' . PHP_EOL;
         echo '2. http:stop' . PHP_EOL;
-        echo '3. http:reload' . PHP_EOL;
-        echo '4. ws:start' . PHP_EOL;
+        echo '3. ws:start' . PHP_EOL;
 
         exit;
     }
