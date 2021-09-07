@@ -13,7 +13,7 @@ class Logger
      * @param string $dir
      * @return Logger
      */
-    public function getInstance(string $dir = '')
+    public static function getInstance(string $dir = '')
     {
         $logger = new self();
         $logger->setDir($dir);
