@@ -54,7 +54,7 @@ class Logger
             'message'   => $msg,
             'data'      => $data
         ];
-        return json_encode($content, JSON_UNESCAPED_UNICODE) . PHP_EOL;
+        return json_encode($content, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . PHP_EOL;
     }
 
     public function info($msg, $data)

@@ -113,7 +113,7 @@ class HttpServer
         $logger->info('客户端开始请求', [
             'request_method'    => $request->server['request_method'],
             'request_uri'       => $request->server['request_uri'],
-            'query_string'      => $request->server['query_string'],
+            'query_string'      => $request->server['query_string'] ?? '',
             'remote_addr'       => $request->server['remote_addr']
         ]);
         $this->_route->dispatch($request, $response);
