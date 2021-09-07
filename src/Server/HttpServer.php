@@ -4,6 +4,7 @@ namespace Carrot\Server;
 
 use App\Constant\TaskConstant;
 use Carrot\Application;
+use Carrot\Lib\Logger;
 use Carrot\Route;
 
 class HttpServer
@@ -108,6 +109,13 @@ class HttpServer
 
     public function onRequest(\Swoole\Http\Request $request, \Swoole\Http\Response $response)
     {
+        $logger = Logger::getInstance('api');
+        $logger->info('客户端开始请求', [
+            'request_method'    => $request->server['request_method'],
+            'request_uri'       => $request->server['request_uri'],
+            'query_string'      => $request->server['query_string'],
+            'remote_addr'       => $request->server['remote_addr']
+        ]);
         $this->_route->dispatch($request, $response);
     }
 
