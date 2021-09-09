@@ -4,8 +4,8 @@ namespace Carrot\Server;
 
 use App\Constant\TaskConstant;
 use Carrot\Application;
-use Carrot\Lib\Logger;
 use Carrot\Route;
+use DuiYing\Logger;
 
 class HttpServer
 {
