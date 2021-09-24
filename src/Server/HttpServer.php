@@ -4,6 +4,7 @@ namespace Carrot\Server;
 
 use App\Constant\TaskConstant;
 use Carrot\Application;
+use Carrot\HttpUtil;
 use Carrot\Route;
 use DuiYing\Logger;
 
@@ -118,7 +119,12 @@ class HttpServer
                 'remote_addr'       => $request->server['remote_addr']
             ]);
         }
-        $this->_route->dispatch($request, $response);
+        try {
+            $this->_route->dispatch($request, $response);
+        } catch (\Exception $exception) {
+            $logger->error($exception->getMessage(), ['code' => $exception->getCode()]);
+            return $response->end(HttpUtil::error());
+        }
     }
 
     /**
