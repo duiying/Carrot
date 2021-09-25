@@ -110,7 +110,7 @@ class HttpServer
 
     public function onRequest(\Swoole\Http\Request $request, \Swoole\Http\Response $response)
     {
-        $logger = Logger::getInstance('api');
+        $logger = Logger::getInstance('/home/work/logs/api');
         if ($request->server['request_uri'] !== '/favicon.ico') {
             $logger->info('客户端开始请求', [
                 'request_method'    => $request->server['request_method'],
