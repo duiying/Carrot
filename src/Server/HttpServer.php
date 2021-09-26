@@ -119,6 +119,7 @@ class HttpServer
                 'remote_addr'       => $request->server['remote_addr']
             ]);
         }
+        $response->header('Content-Type', 'text/html; charset=utf-8');
         try {
             $this->_route->dispatch($request, $response);
         } catch (\Exception $exception) {
